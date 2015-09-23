@@ -45,7 +45,7 @@ ordinarily would not.
 The *BUFBOMB* program reads a string from standard input. It does so with the function *getbuf* defined below:
 
 <pre>
-1/* Buffer size for getbuf */
+1 /* Buffer size for getbuf */
 2 #define NORMAL_BUFFER_SIZE 32
 3
 4 int getbuf()
@@ -99,7 +99,7 @@ The hex characters you pass *HEX2RAW* should be separated by whitespace (blanks 
 bf 66 7b 32 78 /* mov $0x78327b66,%edi */
 </pre>
 
-Be sure to leave space around both the starting and ending comment strings ( ‘/*’, ‘* /’) so they will be properly ignored.
+Be sure to leave space around both the starting and ending comment strings ( ‘/\*’, ‘\*/’) so they will be properly ignored.
 
 If you generate a hex-formatted exploit string in the file *exploit.txt*, you can apply the raw string to *BUFBOMB* in several different ways:
 
@@ -156,59 +156,31 @@ There is no penalty for making mistakes in this lab. Feel free to fire away at *
 
 **IMPORTANT NOTE:** You can work on your buffer bomb on any Linux machine, but it is recommended you use a virtual machine.
 
-Level 0: Candle (10 pts)
-The function
-getbuf
-is called within
-BUFBOMB
-by a function
-test
-having the following C code:
-1
-void test()
-2
-{
-3
-int val;
-4
-/
-*
-Put canary on stack to detect possible corruption
-*
-/
-5
-volatile int local = uniqueval();
+##Level 0: Candle (10 pts)
+The function *getbuf* is called within *BUFBOMB* by a function *test* having the following C code:
+
+<pre>
+1 void test()
+2 {
+3   int val;
+4   /* Put canary on stack to detect possible corruption */
+5   volatile int local = uniqueval();
 6
-7
-val = getbuf();
+7   val = getbuf();
 8
-9
-/
-*
-Check for corrupted stack
-*
-/
-10
-if (local != uniqueval()) {
-11
-printf("Sabotaged!: the stack has been corrupted\n");
-12
-}
-13
-else if (val == cookie) {
-14
-printf("Boom!: getbuf returned 0x%x\n", val);
-15
-validate(3);
-16
-} else {
-17
-printf("Dud: getbuf returned 0x%x\n", val);
-18
-}
-19
-}
-5
+9   /* Check for corrupted stack */
+10  if (local != uniqueval()) {
+11    printf("Sabotaged!: the stack has been corrupted\n");
+12  }
+13  else if (val == cookie) {
+14    printf("Boom!: getbuf returned 0x%x\n", val);
+15    validate(3);
+16  } else {
+17    printf("Dud: getbuf returned 0x%x\n", val);
+18  }
+19 }
+</pre>
+
 When
 getbuf
 executes its return statement (line 5 of
