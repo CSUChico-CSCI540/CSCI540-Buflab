@@ -289,7 +289,6 @@ In addition, when run in Nitro mode, *BUFBOMB* requires you to supply your strin
 Your task is identical to the task for the Dynamite level. Once again, your job for this level is to supply an exploit string that will cause *getbufn* to return your cookie back to test, rather than the value 1. You can see in the code for test that this will cause the program to go “*KABOOM!*.” Your exploit code should set your cookie as the return value, restore any corrupted state, push the correct return location on the stack, and execute a *ret* instruction to really return to *testn*.
 
 **Some Advice:**
-
 * You can use the program *HEX2RAW* to send multiple copies of your exploit string. If you have a single copy in the file *exploit.txt*, then you can use the following command:
 <pre>
 unix> cat exploit.txt | ./hex2raw -n | ./bufbomb -n -u bcdixon
