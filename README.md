@@ -242,6 +242,7 @@ void bang(int val)
   }
   exit(0);
 }
+</pre>
 
 Similar to Levels 0 and 1, your task is to get *BUFBOMB* to execute the code for bang rather than returning to *test*. Before this, however, you must set global variable *global_value* to your userid’s cookie. Your exploit code should set global_value, push the address of *bang* on the stack, and then execute a *ret* instruction to cause a jump to the code for *bang*.
 
